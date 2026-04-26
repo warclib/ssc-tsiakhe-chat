@@ -5,6 +5,9 @@ def main(page: ft.Page):
     page.title = "SSC Tsiakhe Messenger"
     page.theme_mode = ft.ThemeMode.LIGHT
     page.padding = 0
+    # Añadimos responsive para que se adapte al navegador
+    page.window_width = 400
+    page.window_height = 600
 
     # Área de mensajes (Lista desplazable)
     chat_list = ft.ListView(expand=True, spacing=10, padding=20)
@@ -12,7 +15,6 @@ def main(page: ft.Page):
     # Función para enviar mensajes
     def send_message(e):
         if input_field.value:
-            # Añadimos el mensaje a la lista
             chat_list.controls.append(
                 ft.Row([
                     ft.Container(
@@ -23,7 +25,6 @@ def main(page: ft.Page):
                     )
                 ], alignment=ft.MainAxisAlignment.END)
             )
-            # Limpiamos el campo y actualizamos la interfaz
             input_field.value = ""
             page.update()
             chat_list.scroll_to(offset=-1, duration=300)
@@ -33,7 +34,7 @@ def main(page: ft.Page):
         hint_text="Escribe un mensaje...", 
         expand=True, 
         border_radius=20,
-        on_submit=send_message # Permite enviar con la tecla Enter
+        on_submit=send_message
     )
     
     input_bar = ft.Container(
@@ -57,6 +58,6 @@ def main(page: ft.Page):
         input_bar
     )
 
-# Ejecución
+# Ejecución especial para Web
 if __name__ == "__main__":
-    ft.app(target=main)
+    ft.app(target=main, view=ft.AppView.WEB_BROWSER)
